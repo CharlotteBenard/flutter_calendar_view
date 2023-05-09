@@ -381,11 +381,11 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
     _width = widget.width ?? MediaQuery.of(context).size.width;
     _cellWidth = _width / 7;
     _cellHeight = _cellWidth / widget.cellAspectRatio;
-    _height = _cellHeight * 6;
+    _height = _cellHeight * 5;
   }
 
   double calculateCellAspectRatio(double height) {
-    final _cellHeight = height / 6;
+    final _cellHeight = height / 5;
     return _cellWidth / _cellHeight;
   }
 
@@ -618,7 +618,7 @@ class _MonthPageBuilder<T> extends StatelessWidget {
           childAspectRatio: cellRatio,
         ),
         itemCount: 35,
-        shrinkWrap: true,
+        // shrinkWrap: true,
         itemBuilder: (context, index) {
           final events = controller.getEventsOnDay(monthDays[index]);
           return GestureDetector(
