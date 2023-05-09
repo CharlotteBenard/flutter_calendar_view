@@ -618,7 +618,7 @@ class _MonthPageBuilder<T> extends StatelessWidget {
           childAspectRatio: cellRatio,
         ),
         itemCount: 35,
-        // shrinkWrap: true,
+        shrinkWrap: true,
         itemBuilder: (context, index) {
           final events = controller.getEventsOnDay(monthDays[index]);
           return GestureDetector(
