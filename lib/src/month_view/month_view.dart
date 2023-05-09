@@ -350,7 +350,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
                     ],
                   );
                 },
-                itemCount: _totalMonths,
+                // itemCount: _totalMonths,
               ),
             ),
           ],
@@ -612,12 +612,12 @@ class _MonthPageBuilder<T> extends StatelessWidget {
       width: width,
       height: height,
       child: GridView.builder(
-        physics: ClampingScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 7,
           childAspectRatio: cellRatio,
         ),
-        itemCount: 42,
+        itemCount: 35,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           final events = controller.getEventsOnDay(monthDays[index]);
