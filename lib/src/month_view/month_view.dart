@@ -382,7 +382,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
   }
 
   void updateViewDimensions() {
-    _width = widget.width ?? MediaQuery.of(context).size.width;
+    _width = widget.width ?? MediaQuery.of(context).size.width - 30;
     _cellWidth = _width / 7;
     _cellHeight = _cellWidth / widget.cellAspectRatio;
     _height = _cellHeight * 5;
