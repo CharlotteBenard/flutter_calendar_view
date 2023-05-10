@@ -138,6 +138,8 @@ class MonthView<T extends Object?> extends StatefulWidget {
   /// Option for SafeArea.
   final SafeAreaOption safeAreaOption;
 
+  final TextStyle? weekDayTextStyle;
+
   /// Main [Widget] to display month view.
   const MonthView({
     Key? key,
@@ -166,6 +168,7 @@ class MonthView<T extends Object?> extends StatefulWidget {
     this.weekDayStringBuilder,
     this.headerStyle = const HeaderStyle(),
     this.safeAreaOption = const SafeAreaOption(),
+    this.weekDayTextStyle,
   }) : super(key: key);
 
   @override
@@ -187,6 +190,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
 
   late double _width;
   late double _height;
+  late double _pageViewHeight;
 
   late double _cellWidth;
   late double _cellHeight;
@@ -284,13 +288,15 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
       child: SizedBox(
         width: _width,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: _width,
               child: _headerBuilder(_currentDate),
             ),
-            Expanded(
+            SizedBox(
+              height: _pageViewHeight,
               child: PageView.builder(
                 controller: _pageController,
                 onPageChanged: _onPageChange,
@@ -317,7 +323,9 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
                           ),
                         ),
                       ),
-                      Expanded(
+                      SizedBox(
+                        height: _height,
+                        width: _width,
                         child: LayoutBuilder(builder: (context, constraints) {
                           final _cellAspectRatio =
                               widget.useAvailableVerticalSpace
@@ -326,24 +334,20 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
                                     )
                                   : widget.cellAspectRatio;
 
-                          return SizedBox(
-                            height: _height,
+                          return _MonthPageBuilder<T>(
+                            key: ValueKey(date.toIso8601String()),
+                            onCellTap: widget.onCellTap,
+                            onDateLongPress: widget.onDateLongPress,
                             width: _width,
-                            child: _MonthPageBuilder<T>(
-                              key: ValueKey(date.toIso8601String()),
-                              onCellTap: widget.onCellTap,
-                              onDateLongPress: widget.onDateLongPress,
-                              width: _width,
-                              height: _height,
-                              controller: controller,
-                              borderColor: widget.borderColor,
-                              borderSize: widget.borderSize,
-                              cellBuilder: _cellBuilder,
-                              cellRatio: _cellAspectRatio,
-                              date: date,
-                              showBorder: widget.showBorder,
-                              startDay: widget.startDay,
-                            ),
+                            height: _height,
+                            controller: controller,
+                            borderColor: widget.borderColor,
+                            borderSize: widget.borderSize,
+                            cellBuilder: _cellBuilder,
+                            cellRatio: _cellAspectRatio,
+                            date: date,
+                            showBorder: widget.showBorder,
+                            startDay: widget.startDay,
                           );
                         }),
                       ),
@@ -382,6 +386,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
     _cellWidth = _width / 7;
     _cellHeight = _cellWidth / widget.cellAspectRatio;
     _height = _cellHeight * 5;
+    _pageViewHeight = _height + 18;
   }
 
   double calculateCellAspectRatio(double height) {
@@ -485,6 +490,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
     return WeekDayTile(
       dayIndex: index,
       weekDayStringBuilder: widget.weekDayStringBuilder,
+      textStyle: widget.weekDayTextStyle,
     );
   }
 
