@@ -297,6 +297,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
             ),
             SizedBox(
               height: _pageViewHeight,
+              width: _width,
               child: PageView.builder(
                 controller: _pageController,
                 onPageChanged: _onPageChange,
