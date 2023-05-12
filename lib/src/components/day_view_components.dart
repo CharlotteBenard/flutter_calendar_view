@@ -169,12 +169,10 @@ class DefaultTimeLineMark extends StatelessWidget {
         : "${((date.hour - 1) % 12) + 1} ${date.hour ~/ 12 == 0 ? "am" : "pm"}";
     return Transform.translate(
       offset: Offset(0, -7.5),
-      child: Padding(
-        padding: const EdgeInsets.only(right: 7.0),
-        child: Text(
-          timeString,
-          textAlign: TextAlign.right,
-          style: markingStyle ??
+      child: Text(
+        timeString,
+        textAlign: TextAlign.left,
+        style: markingStyle ??
               TextStyle(
                 fontSize: 15.0,
               ),
