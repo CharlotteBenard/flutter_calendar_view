@@ -406,6 +406,7 @@ class DayViewState<T extends Object?> extends State<DayView<T>> {
                           scrollNotifier: _scrollConfiguration,
                           fullDayEventBuilder: _fullDayEventBuilder,
                           scrollController: _scrollController,
+                          scrollPhysics: widget.scrollPhysics,
                         ),
                       );
                     },

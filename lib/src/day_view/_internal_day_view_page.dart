@@ -94,6 +94,8 @@ class InternalDayViewPage<T extends Object?> extends StatelessWidget {
 
   final ScrollController scrollController;
 
+  final ScrollPhysics? scrollPhysics;
+
   /// Defines a single day page.
   const InternalDayViewPage({
     Key? key,
@@ -121,6 +123,7 @@ class InternalDayViewPage<T extends Object?> extends StatelessWidget {
     required this.fullDayEventBuilder,
     required this.scrollController,
     required this.dayDetectorBuilder,
+    this.scrollPhysics,
   }) : super(key: key);
 
   @override
@@ -133,6 +136,7 @@ class InternalDayViewPage<T extends Object?> extends StatelessWidget {
           fullDayEventBuilder(controller.getFullDayEvent(date), date),
           Expanded(
             child: SingleChildScrollView(
+              physics: scrollPhysics,
               controller: scrollController,
               child: SizedBox(
                 height: height,
