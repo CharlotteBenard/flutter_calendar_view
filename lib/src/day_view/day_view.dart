@@ -32,7 +32,7 @@ class DayView<T extends Object?> extends StatefulWidget {
   /// Useful for I18n
   final StringProvider? dateStringBuilder;
 
-  final AsyncCallback? onTitleTap;
+  final bool isTitleClickable;
 
   /// A function to generate the TimeString in the timeline.
   /// Useful for I18n
@@ -192,7 +192,7 @@ class DayView<T extends Object?> extends StatefulWidget {
     Key? key,
     this.eventTileBuilder,
     this.dateStringBuilder,
-    this.onTitleTap,
+    this.isTitleClickable = true,
     this.timeStringBuilder,
     this.controller,
     this.showVerticalLine = true,
@@ -633,18 +633,19 @@ class DayViewState<T extends Object?> extends State<DayView<T>> {
       dateStringBuilder: widget.dateStringBuilder,
       onNextDay: nextPage,
       onPreviousDay: previousPage,
-      onTitleTapped: widget.onTitleTap ??
-          () async {
-            final selectedDate = await showDatePicker(
-              context: context,
-              initialDate: date,
-              firstDate: _minDate,
-              lastDate: _maxDate,
-            );
+      onTitleTapped: widget.isTitleClickable
+          ? () async {
+              final selectedDate = await showDatePicker(
+                context: context,
+                initialDate: date,
+                firstDate: _minDate,
+                lastDate: _maxDate,
+              );
 
-            if (selectedDate == null) return;
-            jumpToDate(selectedDate);
-          },
+              if (selectedDate == null) return;
+              jumpToDate(selectedDate);
+            }
+          : null,
       headerStyle: widget.headerStyle,
     );
   }
