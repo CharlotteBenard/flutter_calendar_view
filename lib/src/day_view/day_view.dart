@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../calendar_constants.dart';
@@ -30,6 +31,8 @@ class DayView<T extends Object?> extends StatefulWidget {
   /// A function to generate the DateString in the calendar title.
   /// Useful for I18n
   final StringProvider? dateStringBuilder;
+
+  final AsyncCallback? onTitleTap;
 
   /// A function to generate the TimeString in the timeline.
   /// Useful for I18n
@@ -189,6 +192,7 @@ class DayView<T extends Object?> extends StatefulWidget {
     Key? key,
     this.eventTileBuilder,
     this.dateStringBuilder,
+    this.onTitleTap,
     this.timeStringBuilder,
     this.controller,
     this.showVerticalLine = true,
@@ -629,17 +633,18 @@ class DayViewState<T extends Object?> extends State<DayView<T>> {
       dateStringBuilder: widget.dateStringBuilder,
       onNextDay: nextPage,
       onPreviousDay: previousPage,
-      onTitleTapped: () async {
-        final selectedDate = await showDatePicker(
-          context: context,
-          initialDate: date,
-          firstDate: _minDate,
-          lastDate: _maxDate,
-        );
+      onTitleTapped: widget.onTitleTap ??
+          () async {
+            final selectedDate = await showDatePicker(
+              context: context,
+              initialDate: date,
+              firstDate: _minDate,
+              lastDate: _maxDate,
+            );
 
-        if (selectedDate == null) return;
-        jumpToDate(selectedDate);
-      },
+            if (selectedDate == null) return;
+            jumpToDate(selectedDate);
+          },
       headerStyle: widget.headerStyle,
     );
   }
