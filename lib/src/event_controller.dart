@@ -94,6 +94,14 @@ class EventController<T extends Object?> extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeAll() {
+    _calendarData.events.clear();
+    _calendarData.eventList.clear();
+    _calendarData.rangingEventList.clear();
+    _calendarData.fullDayEventList.clear();
+    notifyListeners();
+  }
+
   /// Removes multiple [event] from this controller.
   void removeWhere(bool Function(CalendarEventData<T> element) test) {
     for (final e in _calendarData.events.values) {
