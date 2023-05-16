@@ -33,6 +33,12 @@ class HeaderStyle {
   /// Internal padding of right icon.
   final EdgeInsets rightIconPadding;
 
+  /// Size of left icon.
+  final double? leftIconSize;
+
+  /// Size of right icon.
+  final double? rightIconSize;
+
   /// Define Alignment of header text.
   final TextAlign titleAlign;
 
@@ -50,6 +56,8 @@ class HeaderStyle {
     this.headerPadding = EdgeInsets.zero,
     this.leftIconPadding = const EdgeInsets.all(10),
     this.rightIconPadding = const EdgeInsets.all(10),
+    this.leftIconSize,
+    this.rightIconSize,
     this.titleAlign = TextAlign.center,
     this.decoration,
   });
