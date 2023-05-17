@@ -220,7 +220,7 @@ class InternalDayViewPage<T extends Object?> extends StatelessWidget {
                       IgnorePointer(
                         child: LiveTimeIndicator(
                           liveTimeIndicatorSettings: liveTimeIndicatorSettings,
-                          width: width,
+                          width: width - timeLineRightOffset,
                           height: height,
                           heightPerMinute: heightPerMinute,
                           timeLineWidth: timeLineWidth,
