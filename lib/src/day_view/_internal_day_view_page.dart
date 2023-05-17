@@ -102,6 +102,8 @@ class InternalDayViewPage<T extends Object?> extends StatelessWidget {
 
   final ScrollPhysics? scrollPhysics;
 
+  final double? timeLineRightOffset;
+
   /// Defines a single day page.
   const InternalDayViewPage({
     Key? key,
@@ -131,6 +133,7 @@ class InternalDayViewPage<T extends Object?> extends StatelessWidget {
     required this.dayDetectorBuilder,
     required this.showHalfHours,
     required this.halfHourIndicatorSettings,
+    this.timeLineRightOffset,
     this.scrollPhysics,
   }) : super(key: key);
 
@@ -152,7 +155,7 @@ class InternalDayViewPage<T extends Object?> extends StatelessWidget {
                 child: Stack(
                   children: [
                     CustomPaint(
-                      size: Size(width, height),
+                      size: Size(width - timeLineOffset, height),
                       painter: HourLinePainter(
                         lineColor: hourIndicatorSettings.color,
                         lineHeight: hourIndicatorSettings.height,
