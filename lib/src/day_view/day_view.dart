@@ -187,6 +187,8 @@ class DayView<T extends Object?> extends StatefulWidget {
 
   final bool showHalfHours;
 
+  final double? timeLineRightOffset;
+
   /// Main widget for day view.
   const DayView({
     Key? key,
@@ -227,6 +229,7 @@ class DayView<T extends Object?> extends StatefulWidget {
     this.dayDetectorBuilder,
     this.showHalfHours = false,
     this.halfHourIndicatorSettings,
+    this.timeLineRightOffset,
   })  : assert(timeLineOffset >= 0,
             "timeLineOffset must be greater than or equal to 0"),
         assert(width == null || width > 0,
@@ -423,6 +426,7 @@ class DayViewState<T extends Object?> extends State<DayView<T>> {
                           showHalfHours: widget.showHalfHours,
                           halfHourIndicatorSettings: _halfHourIndicatorSettings,
                           scrollPhysics: widget.scrollPhysics,
+                          timeLineRightOffset: widget.timeLineRightOffset,
                         ),
                       );
                     },
