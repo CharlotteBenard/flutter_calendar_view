@@ -111,6 +111,20 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
   /// Display full day events.
   final FullDayEventBuilder<T>? fullDayEventBuilder;
 
+  final bool isDividerVisible;
+
+  final double spaceBetweenHeaderAndBody;
+
+  final EdgeInsetsGeometry weekHeaderVerticalPadding;
+
+  final BoxDecoration headerDecoration;
+
+  final BoxDecoration bodyDecoration;
+
+  final bool showEndVerticalLine;
+
+  final double viewLeftPadding;
+
   /// A single page for week view.
   const InternalWeekViewPage({
     Key? key,
@@ -143,44 +157,68 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
     required this.scrollConfiguration,
     this.fullDayEventBuilder,
     required this.weekDetectorBuilder,
+    required this.isDividerVisible,
+    required this.spaceBetweenHeaderAndBody,
+    required this.weekHeaderVerticalPadding,
+    required this.headerDecoration,
+    required this.bodyDecoration,
+    required this.showEndVerticalLine,
+    required this.viewLeftPadding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final filteredDates = _filteredDate();
+    final leftOffset = headerDecoration.boxShadow?.first.blurRadius ??
+        bodyDecoration.boxShadow?.first.blurRadius ??
+        0;
     return Container(
-      height: height + weekTitleHeight,
+      // height: height + weekTitleHeight,
       width: width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SizedBox(
-            width: width,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: weekTitleHeight,
-                  width: timeLineWidth + hourIndicatorSettings.offset,
-                  child: weekNumberBuilder.call(filteredDates[0]),
-                ),
-                ...List.generate(
-                  filteredDates.length,
-                  (index) => SizedBox(
-                    height: weekTitleHeight,
-                    width: weekTitleWidth,
-                    child: weekDayBuilder(
-                      filteredDates[index],
-                    ),
+          Padding(
+            padding: EdgeInsets.all(leftOffset),
+            child: DecoratedBox(
+              decoration: headerDecoration,
+              child: Padding(
+                padding: weekHeaderVerticalPadding,
+                child: SizedBox(
+                  width: width,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: weekTitleHeight,
+                        width: timeLineWidth +
+                            hourIndicatorSettings.offset +
+                            viewLeftPadding -
+                            leftOffset,
+                        child: weekNumberBuilder.call(filteredDates[0]),
+                      ),
+                      ...List.generate(
+                        filteredDates.length,
+                        (index) => SizedBox(
+                          // height: weekTitleHeight,
+                          width: weekTitleWidth,
+                          child: weekDayBuilder(
+                            filteredDates[index],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
+                ),
+              ),
             ),
           ),
-          Divider(
-            thickness: 1,
-            height: 1,
-          ),
+          if (isDividerVisible)
+            Divider(
+              thickness: 1,
+              height: 1,
+            ),
+          SizedBox(height: spaceBetweenHeaderAndBody),
           SizedBox(
             width: width,
             child: Row(
@@ -201,89 +239,107 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              controller: scrollController,
-              child: SizedBox(
-                height: height,
-                width: width,
-                child: Stack(
-                  children: [
-                    CustomPaint(
-                      size: Size(width, height),
-                      painter: HourLinePainter(
-                        lineColor: hourIndicatorSettings.color,
-                        lineHeight: hourIndicatorSettings.height,
-                        offset: timeLineWidth + hourIndicatorSettings.offset,
-                        minuteHeight: heightPerMinute,
-                        verticalLineOffset: verticalLineOffset,
-                        showVerticalLine: showVerticalLine,
-                      ),
-                    ),
-                    if (showLiveLine && liveTimeIndicatorSettings.height > 0)
-                      LiveTimeIndicator(
-                        liveTimeIndicatorSettings: liveTimeIndicatorSettings,
-                        width: width,
-                        height: height,
-                        heightPerMinute: heightPerMinute,
-                        timeLineWidth: timeLineWidth,
-                      ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: SizedBox(
-                        width: weekTitleWidth * filteredDates.length,
-                        height: height,
-                        child: Row(
-                          children: [
-                            ...List.generate(
-                              filteredDates.length,
-                              (index) => Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    right: BorderSide(
-                                      color: hourIndicatorSettings.color,
-                                      width: hourIndicatorSettings.height,
-                                    ),
-                                  ),
-                                ),
-                                height: height,
-                                width: weekTitleWidth,
-                                child: Stack(
-                                  children: [
-                                    weekDetectorBuilder(
-                                      width: weekTitleWidth,
-                                      height: height,
-                                      heightPerMinute: heightPerMinute,
-                                      date: dates[index],
-                                      minuteSlotSize: minuteSlotSize,
-                                    ),
-                                    EventGenerator<T>(
-                                      height: height,
-                                      date: filteredDates[index],
-                                      onTileTap: onTileTap,
-                                      width: weekTitleWidth,
-                                      eventArranger: eventArranger,
-                                      eventTileBuilder: eventTileBuilder,
-                                      scrollNotifier: scrollConfiguration,
-                                      events: controller
-                                          .getEventsOnDay(filteredDates[index]),
-                                      heightPerMinute: heightPerMinute,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    TimeLine(
-                      timeLineWidth: timeLineWidth,
-                      hourHeight: hourHeight,
+            child: Padding(
+              padding: EdgeInsets.all(leftOffset),
+              child: DecoratedBox(
+                decoration: bodyDecoration,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: viewLeftPadding),
+                    child: SizedBox(
                       height: height,
-                      timeLineOffset: timeLineOffset,
-                      timeLineBuilder: timeLineBuilder,
+                      width: width,
+                      child: Stack(
+                        children: [
+                          CustomPaint(
+                            size: Size(width, height),
+                            painter: HourLinePainter(
+                              lineColor: hourIndicatorSettings.color,
+                              lineHeight: hourIndicatorSettings.height,
+                              offset:
+                                  timeLineWidth + hourIndicatorSettings.offset,
+                              minuteHeight: heightPerMinute,
+                              verticalLineOffset: verticalLineOffset,
+                              showVerticalLine: showVerticalLine,
+                            ),
+                          ),
+                          if (showLiveLine &&
+                              liveTimeIndicatorSettings.height > 0)
+                            LiveTimeIndicator(
+                              liveTimeIndicatorSettings:
+                                  liveTimeIndicatorSettings,
+                              width: width,
+                              height: height,
+                              heightPerMinute: heightPerMinute,
+                              timeLineWidth: timeLineWidth,
+                            ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: SizedBox(
+                              width: weekTitleWidth * filteredDates.length,
+                              height: height,
+                              child: Row(
+                                children: [
+                                  ...List.generate(
+                                    filteredDates.length,
+                                    (index) => Container(
+                                      decoration: index ==
+                                                  filteredDates.length - 1 &&
+                                              !showEndVerticalLine
+                                          ? null
+                                          : BoxDecoration(
+                                              border: Border(
+                                                right: BorderSide(
+                                                  color: hourIndicatorSettings
+                                                      .color,
+                                                  width: hourIndicatorSettings
+                                                      .height,
+                                                ),
+                                              ),
+                                            ),
+                                      height: height,
+                                      width: weekTitleWidth,
+                                      child: Stack(
+                                        children: [
+                                          weekDetectorBuilder(
+                                            width: weekTitleWidth,
+                                            height: height,
+                                            heightPerMinute: heightPerMinute,
+                                            date: dates[index],
+                                            minuteSlotSize: minuteSlotSize,
+                                          ),
+                                          EventGenerator<T>(
+                                            height: height,
+                                            date: filteredDates[index],
+                                            onTileTap: onTileTap,
+                                            width: weekTitleWidth,
+                                            eventArranger: eventArranger,
+                                            eventTileBuilder: eventTileBuilder,
+                                            scrollNotifier: scrollConfiguration,
+                                            events: controller.getEventsOnDay(
+                                                filteredDates[index]),
+                                            heightPerMinute: heightPerMinute,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          TimeLine(
+                            timeLineWidth: timeLineWidth,
+                            hourHeight: hourHeight,
+                            height: height,
+                            timeLineOffset: timeLineOffset,
+                            timeLineBuilder: timeLineBuilder,
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

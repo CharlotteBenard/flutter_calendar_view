@@ -183,6 +183,31 @@ class WeekView<T extends Object?> extends StatefulWidget {
   /// Display full day event builder.
   final FullDayEventBuilder<T>? fullDayEventBuilder;
 
+  final Widget Function(
+    DateTime date,
+  )? weekDayNumberCellBuilder;
+
+  /// If true this will display vertical line in day view.
+  final bool showVerticalLine;
+
+  final bool isDividerVisible;
+
+  final double spaceBetweenHeaderAndBody;
+
+  final double spaceBetweenWeekDaysStringsAndNumbers;
+
+  final TextStyle? weekDayStringStyle;
+
+  final EdgeInsetsGeometry weekHeaderVerticalPadding;
+
+  final double viewleftPadding;
+
+  final BoxDecoration headerDecoration;
+
+  final BoxDecoration bodyDecoration;
+
+  final bool showEndVerticalLine;
+
   /// Main widget for week view.
   const WeekView({
     Key? key,
@@ -224,6 +249,17 @@ class WeekView<T extends Object?> extends StatefulWidget {
     this.headerStyle = const HeaderStyle(),
     this.safeAreaOption = const SafeAreaOption(),
     this.fullDayEventBuilder,
+    this.weekDayNumberCellBuilder,
+    this.showVerticalLine = true,
+    this.isDividerVisible = true,
+    this.spaceBetweenHeaderAndBody = 0,
+    this.spaceBetweenWeekDaysStringsAndNumbers = 0,
+    this.weekDayStringStyle,
+    this.weekHeaderVerticalPadding = EdgeInsets.zero,
+    this.viewleftPadding = 0,
+    this.headerDecoration = const BoxDecoration(),
+    this.bodyDecoration = const BoxDecoration(),
+    this.showEndVerticalLine = true,
   })  : assert((timeLineOffset) >= 0,
             "timeLineOffset must be greater than or equal to 0"),
         assert(width == null || width > 0,
@@ -424,7 +460,7 @@ class WeekViewState<T extends Object?> extends State<WeekView<T>> {
                           timeLineOffset: widget.timeLineOffset,
                           timeLineWidth: _timeLineWidth,
                           verticalLineOffset: 0,
-                          showVerticalLine: true,
+                          showVerticalLine: widget.showVerticalLine,
                           controller: controller,
                           hourHeight: _hourHeight,
                           scrollController: _scrollController,
@@ -433,6 +469,15 @@ class WeekViewState<T extends Object?> extends State<WeekView<T>> {
                           minuteSlotSize: widget.minuteSlotSize,
                           scrollConfiguration: _scrollConfiguration,
                           fullDayEventBuilder: _fullDayEventBuilder,
+                          isDividerVisible: widget.isDividerVisible,
+                          spaceBetweenHeaderAndBody:
+                              widget.spaceBetweenHeaderAndBody,
+                          weekHeaderVerticalPadding:
+                              widget.weekHeaderVerticalPadding,
+                          headerDecoration: widget.headerDecoration,
+                          bodyDecoration: widget.bodyDecoration,
+                          showEndVerticalLine: widget.showEndVerticalLine,
+                          viewLeftPadding: widget.viewleftPadding,
                         ),
                       );
                     },
@@ -508,9 +553,15 @@ class WeekViewState<T extends Object?> extends State<WeekView<T>> {
     assert(_hourIndicatorSettings.height < _hourHeight,
         "hourIndicator height must be less than minuteHeight * 60");
 
-    _weekTitleWidth =
-        (_width - _timeLineWidth - _hourIndicatorSettings.offset) /
-            _totalDaysInWeek;
+    _weekTitleWidth = (_width -
+            30 -
+            _timeLineWidth -
+            _hourIndicatorSettings.offset -
+            widget.viewleftPadding -
+            (widget.bodyDecoration.boxShadow?.first.blurRadius ??
+                widget.headerDecoration.boxShadow?.first.blurRadius ??
+                0)) /
+        _totalDaysInWeek;
   }
 
   void _calculateHeights() {
@@ -640,10 +691,15 @@ class WeekViewState<T extends Object?> extends State<WeekView<T>> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(widget.weekDayStringBuilder?.call(date.weekday - 1) ??
-              Constants.weekTitles[date.weekday - 1]),
-          Text(widget.weekDayDateStringBuilder?.call(date.day) ??
-              date.day.toString()),
+          Text(
+            widget.weekDayStringBuilder?.call(date.weekday - 1) ??
+                Constants.weekTitles[date.weekday - 1],
+            style: widget.weekDayStringStyle,
+          ),
+          SizedBox(height: widget.spaceBetweenWeekDaysStringsAndNumbers),
+          widget.weekDayNumberCellBuilder?.call(date) ??
+              Text(widget.weekDayDateStringBuilder?.call(date.day) ??
+                  date.day.toString()),
         ],
       ),
     );
