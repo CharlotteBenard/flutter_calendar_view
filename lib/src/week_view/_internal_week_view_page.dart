@@ -176,7 +176,7 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
       // height: height + weekTitleHeight,
       width: width,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        // crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Padding(
             padding: EdgeInsets.all(leftOffset),
@@ -185,7 +185,7 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
               child: Padding(
                 padding: weekHeaderVerticalPadding,
                 child: SizedBox(
-                  width: width,
+                  width: width - leftOffset * 2,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -193,8 +193,7 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
                         // height: weekTitleHeight,
                         width: timeLineWidth +
                             hourIndicatorSettings.offset +
-                            viewLeftPadding -
-                            leftOffset,
+                            viewLeftPadding,
                         child: weekNumberBuilder.call(filteredDates[0]),
                       ),
                       ...List.generate(
@@ -220,7 +219,7 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
             ),
           SizedBox(height: spaceBetweenHeaderAndBody),
           SizedBox(
-            width: width,
+            width: width - leftOffset * 2,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

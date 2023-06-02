@@ -529,7 +529,7 @@ class WeekViewState<T extends Object?> extends State<WeekView<T>> {
   }
 
   void _updateViewDimensions() {
-    _width = widget.width ?? MediaQuery.of(context).size.width;
+    _width = widget.width ?? MediaQuery.of(context).size.width - 30;
 
     _timeLineWidth = widget.timeLineWidth ?? _width * 0.13;
 
@@ -554,13 +554,13 @@ class WeekViewState<T extends Object?> extends State<WeekView<T>> {
         "hourIndicator height must be less than minuteHeight * 60");
 
     _weekTitleWidth = (_width -
-            30 -
             _timeLineWidth -
-            _hourIndicatorSettings.offset -
             widget.viewleftPadding -
-            (widget.bodyDecoration.boxShadow?.first.blurRadius ??
-                widget.headerDecoration.boxShadow?.first.blurRadius ??
-                0)) /
+            _hourIndicatorSettings.offset -
+            (widget.headerDecoration.boxShadow?.first.blurRadius ??
+                    widget.bodyDecoration.boxShadow?.first.blurRadius ??
+                    0) *
+                2) /
         _totalDaysInWeek;
   }
 
