@@ -423,7 +423,7 @@ class WeekViewState<T extends Object?> extends State<WeekView<T>> {
               child: DecoratedBox(
                 decoration: BoxDecoration(color: widget.backgroundColor),
                 child: SizedBox(
-                  height: _height,
+                  // height: _height,
                   width: _width,
                   child: PageView.builder(
                     itemCount: _totalWeeks,

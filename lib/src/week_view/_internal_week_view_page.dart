@@ -190,7 +190,7 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: weekTitleHeight,
+                        // height: weekTitleHeight,
                         width: timeLineWidth +
                             hourIndicatorSettings.offset +
                             viewLeftPadding -
