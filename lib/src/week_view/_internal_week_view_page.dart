@@ -198,11 +198,14 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
                       ),
                       ...List.generate(
                         filteredDates.length,
-                        (index) => SizedBox(
-                          // height: weekTitleHeight,
-                          width: weekTitleWidth,
-                          child: weekDayBuilder(
-                            filteredDates[index],
+                        (index) => DecoratedBox(
+                          decoration: BoxDecoration(color: Colors.red),
+                          child: SizedBox(
+                            // height: weekTitleHeight,
+                            width: weekTitleWidth,
+                            child: weekDayBuilder(
+                              filteredDates[index],
+                            ),
                           ),
                         ),
                       )
@@ -239,7 +242,8 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(leftOffset),
+              padding: EdgeInsets.only(
+                  left: leftOffset, right: leftOffset, top: leftOffset),
               child: DecoratedBox(
                 decoration: bodyDecoration,
                 child: SingleChildScrollView(
