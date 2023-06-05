@@ -198,14 +198,11 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
                       ),
                       ...List.generate(
                         filteredDates.length,
-                        (index) => DecoratedBox(
-                          decoration: BoxDecoration(color: Colors.red),
-                          child: SizedBox(
-                            // height: weekTitleHeight,
-                            width: weekTitleWidth,
-                            child: weekDayBuilder(
-                              filteredDates[index],
-                            ),
+                        (index) => SizedBox(
+                          // height: weekTitleHeight,
+                          width: weekTitleWidth,
+                          child: weekDayBuilder(
+                            filteredDates[index],
                           ),
                         ),
                       )
