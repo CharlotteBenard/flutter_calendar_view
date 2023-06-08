@@ -43,6 +43,8 @@ class RoundedEventTile extends StatelessWidget {
   /// Style for description
   final TextStyle? descriptionStyle;
 
+  final Widget? child;
+
   /// This is default tile to display in day view.
   const RoundedEventTile({
     Key? key,
@@ -55,6 +57,7 @@ class RoundedEventTile extends StatelessWidget {
     this.backgroundColor = Colors.blue,
     this.titleStyle,
     this.descriptionStyle,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -66,50 +69,51 @@ class RoundedEventTile extends StatelessWidget {
         color: backgroundColor,
         borderRadius: borderRadius,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (title.isNotEmpty)
-            Expanded(
-              child: Text(
-                title,
-                style: titleStyle ??
-                    TextStyle(
-                      fontSize: 20,
-                      color: backgroundColor.accent,
-                    ),
-                softWrap: true,
-                overflow: TextOverflow.fade,
-              ),
-            ),
-          if (description.isNotEmpty)
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 15.0),
-                child: Text(
-                  description,
-                  style: descriptionStyle ??
-                      TextStyle(
-                        fontSize: 17,
-                        color: backgroundColor.accent.withAlpha(200),
-                      ),
-                ),
-              ),
-            ),
-          if (totalEvents > 1)
-            Expanded(
-              child: Text(
-                "+${totalEvents - 1} more",
-                style: (descriptionStyle ??
+      child: child ??
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (title.isNotEmpty)
+                Expanded(
+                  child: Text(
+                    title,
+                    style: titleStyle ??
                         TextStyle(
-                          color: backgroundColor.accent.withAlpha(200),
-                        ))
-                    .copyWith(fontSize: 17),
-              ),
-            ),
-        ],
-      ),
+                          fontSize: 20,
+                          color: backgroundColor.accent,
+                        ),
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                  ),
+                ),
+              if (description.isNotEmpty)
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Text(
+                      description,
+                      style: descriptionStyle ??
+                          TextStyle(
+                            fontSize: 17,
+                            color: backgroundColor.accent.withAlpha(200),
+                          ),
+                    ),
+                  ),
+                ),
+              if (totalEvents > 1)
+                Expanded(
+                  child: Text(
+                    "+${totalEvents - 1} more",
+                    style: (descriptionStyle ??
+                            TextStyle(
+                              color: backgroundColor.accent.withAlpha(200),
+                            ))
+                        .copyWith(fontSize: 17),
+                  ),
+                ),
+            ],
+          ),
     );
   }
 }
