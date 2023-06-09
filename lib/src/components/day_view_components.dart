@@ -158,11 +158,14 @@ class DefaultTimeLineMark extends StatelessWidget {
   /// Text style for time string.
   final TextStyle? markingStyle;
 
+  final TextAlign textAlign;
+
   /// Time marker for timeline used in week and day view.
   const DefaultTimeLineMark({
     Key? key,
     required this.date,
     this.markingStyle,
+    this.textAlign = TextAlign.left,
     this.timeStringBuilder,
   }) : super(key: key);
 
@@ -178,7 +181,7 @@ class DefaultTimeLineMark extends StatelessWidget {
       offset: Offset(0, -7.5),
       child: Text(
         timeString,
-        textAlign: TextAlign.left,
+        textAlign: textAlign,
         style: markingStyle ??
             TextStyle(
               fontSize: 15.0,
