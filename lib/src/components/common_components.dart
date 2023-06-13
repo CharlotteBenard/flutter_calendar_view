@@ -74,9 +74,6 @@ class CalendarPageHeader extends StatelessWidget {
         children: [
           if (headerStyle.leftIconVisible)
             IconButton(
-              splashRadius: headerStyle.leftIconSize != null
-                  ? headerStyle.leftIconSize! / 2
-                  : null,
               iconSize: headerStyle.leftIconSize,
               constraints: BoxConstraints(),
               onPressed: onPreviousDay,
@@ -104,9 +101,6 @@ class CalendarPageHeader extends StatelessWidget {
           ),
           if (headerStyle.rightIconVisible)
             IconButton(
-              splashRadius: headerStyle.rightIconSize != null
-                  ? headerStyle.rightIconSize! / 2
-                  : null,
               onPressed: onNextDay,
               iconSize: headerStyle.rightIconSize,
               constraints: BoxConstraints(),

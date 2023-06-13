@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Calendar Page Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.light(),
+        theme: ThemeData.light().copyWith(useMaterial3: true),
         scrollBehavior: ScrollBehavior().copyWith(
           dragDevices: {
             PointerDeviceKind.trackpad,
