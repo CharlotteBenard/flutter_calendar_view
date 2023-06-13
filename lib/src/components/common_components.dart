@@ -75,8 +75,10 @@ class CalendarPageHeader extends StatelessWidget {
           if (headerStyle.leftIconVisible)
             IconButton(
               iconSize: headerStyle.leftIconSize,
-              constraints:
-                  BoxConstraints(minWidth: headerStyle.leftIconSize ?? 0),
+
+              style: IconButton.styleFrom(
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+              constraints: BoxConstraints(),
               onPressed: onPreviousDay,
               // splashColor: Colors.transparent,
               // focusColor: Colors.transparent,
@@ -86,7 +88,7 @@ class CalendarPageHeader extends StatelessWidget {
               icon: headerStyle.leftIcon ??
                   Icon(
                     Icons.chevron_left,
-                    size: 30,
+                    size: 18,
                     color: iconColor,
                   ),
             ),
@@ -103,9 +105,10 @@ class CalendarPageHeader extends StatelessWidget {
           if (headerStyle.rightIconVisible)
             IconButton(
               onPressed: onNextDay,
+              style: IconButton.styleFrom(
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap),
               iconSize: headerStyle.rightIconSize,
-              constraints:
-                  BoxConstraints(minWidth: headerStyle.rightIconSize ?? 0),
+              constraints: BoxConstraints(),
               // splashColor: Colors.transparent,
               // focusColor: Colors.transparent,
               // hoverColor: Colors.transparent,
@@ -114,7 +117,7 @@ class CalendarPageHeader extends StatelessWidget {
               icon: headerStyle.rightIcon ??
                   Icon(
                     Icons.chevron_right,
-                    size: 30,
+                    size: 18,
                     color: iconColor,
                   ),
             ),
