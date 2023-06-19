@@ -124,10 +124,9 @@ class MergeEventArranger<T extends Object?> extends EventArranger<T> {
 
   bool _checkIsOverlapping(int arrangedEventStart, int arrangedEventEnd,
       int eventStart, int eventEnd) {
-    return (arrangedEventStart >= eventStart &&
-            arrangedEventStart <= eventEnd) ||
-        (arrangedEventEnd >= eventStart && arrangedEventEnd <= eventEnd) ||
-        (eventStart >= arrangedEventStart && eventStart <= arrangedEventEnd) ||
-        (eventEnd >= arrangedEventStart && eventEnd <= arrangedEventEnd);
+    return (arrangedEventStart > eventStart && arrangedEventStart < eventEnd) ||
+        (arrangedEventEnd > eventStart && arrangedEventEnd < eventEnd) ||
+        (eventStart > arrangedEventStart && eventStart < arrangedEventEnd) ||
+        (eventEnd > arrangedEventStart && eventEnd < arrangedEventEnd);
   }
 }
