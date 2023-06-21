@@ -295,67 +295,70 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
               width: _width,
               child: _headerBuilder(_currentDate),
             ),
-            SizedBox(
-              height: _pageViewHeight,
-              width: _width,
-              child: PageView.builder(
-                controller: _pageController,
-                onPageChanged: _onPageChange,
-                itemBuilder: (_, index) {
-                  final date = DateTime(_minDate.year, _minDate.month + index);
-                  final weekDays = date.datesOfWeek(start: widget.startDay);
+            Expanded(
+              child: SizedBox(
+                // height: _pageViewHeight,
+                width: _width,
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: _onPageChange,
+                  itemBuilder: (_, index) {
+                    final date =
+                        DateTime(_minDate.year, _minDate.month + index);
+                    final weekDays = date.datesOfWeek(start: widget.startDay);
 
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: _width,
-                        child: Row(
-                          children: List.generate(
-                            7,
-                            (index) => Expanded(
-                              child: SizedBox(
-                                width: _cellWidth,
-                                child:
-                                    _weekBuilder(weekDays[index].weekday - 1),
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: _width,
+                          child: Row(
+                            children: List.generate(
+                              7,
+                              (index) => Expanded(
+                                child: SizedBox(
+                                  width: _cellWidth,
+                                  child:
+                                      _weekBuilder(weekDays[index].weekday - 1),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: _height,
-                        width: _width,
-                        child: LayoutBuilder(builder: (context, constraints) {
-                          final _cellAspectRatio =
-                              widget.useAvailableVerticalSpace
-                                  ? calculateCellAspectRatio(
-                                      constraints.maxHeight,
-                                    )
-                                  : widget.cellAspectRatio;
+                        SizedBox(
+                          // height: _height,
+                          width: _width,
+                          child: LayoutBuilder(builder: (context, constraints) {
+                            final _cellAspectRatio =
+                                widget.useAvailableVerticalSpace
+                                    ? calculateCellAspectRatio(
+                                        constraints.maxHeight,
+                                      )
+                                    : widget.cellAspectRatio;
 
-                          return _MonthPageBuilder<T>(
-                            key: ValueKey(date.toIso8601String()),
-                            onCellTap: widget.onCellTap,
-                            onDateLongPress: widget.onDateLongPress,
-                            width: _width,
-                            height: _height,
-                            controller: controller,
-                            borderColor: widget.borderColor,
-                            borderSize: widget.borderSize,
-                            cellBuilder: _cellBuilder,
-                            cellRatio: _cellAspectRatio,
-                            date: date,
-                            showBorder: widget.showBorder,
-                            startDay: widget.startDay,
-                          );
-                        }),
-                      ),
-                    ],
-                  );
-                },
-                // itemCount: _totalMonths,
+                            return _MonthPageBuilder<T>(
+                              key: ValueKey(date.toIso8601String()),
+                              onCellTap: widget.onCellTap,
+                              onDateLongPress: widget.onDateLongPress,
+                              width: _width,
+                              height: _height,
+                              controller: controller,
+                              borderColor: widget.borderColor,
+                              borderSize: widget.borderSize,
+                              cellBuilder: _cellBuilder,
+                              cellRatio: _cellAspectRatio,
+                              date: date,
+                              showBorder: widget.showBorder,
+                              startDay: widget.startDay,
+                            );
+                          }),
+                        ),
+                      ],
+                    );
+                  },
+                  // itemCount: _totalMonths,
+                ),
               ),
             ),
           ],
@@ -617,7 +620,7 @@ class _MonthPageBuilder<T> extends StatelessWidget {
     final monthDays = date.datesOfMonths(startDay: startDay);
     return Container(
       width: width,
-      height: height,
+      // height: height,
       child: GridView.builder(
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
