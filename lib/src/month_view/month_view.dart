@@ -295,10 +295,11 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
               width: _width,
               child: _headerBuilder(_currentDate),
             ),
-            Expanded(
-              child: SizedBox(
-                // height: _pageViewHeight,
-                width: _width,
+            SizedBox(
+              height: _pageViewHeight,
+              width: _width,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.red),
                 child: PageView.builder(
                   controller: _pageController,
                   onPageChanged: _onPageChange,
@@ -314,6 +315,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
+                            height: 18,
                             width: _width,
                             child: Row(
                               children: List.generate(
@@ -328,7 +330,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
                           ),
                           SizedBox(
                             width: _width,
-                            // height: _height,
+                            height: _height,
                             child:
                                 LayoutBuilder(builder: (context, constraints) {
                               final _cellAspectRatio =
@@ -622,7 +624,7 @@ class _MonthPageBuilder<T> extends StatelessWidget {
     final monthDays = date.datesOfMonths(startDay: startDay);
     return Container(
       width: width,
-      // height: height,
+      height: height,
       child: GridView.builder(
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
