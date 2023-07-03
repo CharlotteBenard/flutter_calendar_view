@@ -8,7 +8,8 @@ import 'extensions.dart';
 
 /// Stores all the events on [date]
 @immutable
-class CalendarEventData<T extends Object?> {
+class CalendarEventData<T extends Object?>
+    extends Comparable<CalendarEventData<T>> {
   /// Specifies date on which all these events are.
   final DateTime date;
 
@@ -44,7 +45,7 @@ class CalendarEventData<T extends Object?> {
   final TextStyle? descriptionStyle;
 
   /// Stores all the events on [date]
-  const CalendarEventData({
+  CalendarEventData({
     required this.title,
     this.description = "",
     this.event,
@@ -96,4 +97,13 @@ class CalendarEventData<T extends Object?> {
 
   @override
   int get hashCode => super.hashCode;
+
+  @override
+  int compareTo(CalendarEventData<T> other) {
+    int result = startTime!.compareTo(other.startTime!);
+    if (result != 0) {
+      return result;
+    }
+    return endTime!.compareTo(other.endTime!);
+  }
 }

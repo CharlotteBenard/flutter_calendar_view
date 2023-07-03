@@ -16,8 +16,7 @@ typedef CellBuilder<T extends Object?> = Widget Function(
 
 typedef EventTileBuilder<T extends Object?> = Widget Function(
   DateTime date,
-  List<CalendarEventData<T>> events,
-  Rect boundary,
+  CalendarEventData<T> event,
   DateTime startDuration,
   DateTime endDuration,
 );

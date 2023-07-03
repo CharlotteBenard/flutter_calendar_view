@@ -607,25 +607,24 @@ class DayViewState<T extends Object?> extends State<DayView<T>> {
   ///
   Widget _defaultEventTileBuilder(
     DateTime date,
-    List<CalendarEventData<T>> events,
-    Rect boundary,
+    CalendarEventData<T> event,
     DateTime startDuration,
     DateTime endDuration,
   ) {
-    if (events.isNotEmpty)
-      return RoundedEventTile(
-        borderRadius: BorderRadius.circular(10.0),
-        title: events[0].title,
-        totalEvents: events.length - 1,
-        description: events[0].description,
-        padding: EdgeInsets.all(10.0),
-        backgroundColor: events[0].color,
-        margin: EdgeInsets.all(2.0),
-        titleStyle: events[0].titleStyle,
-        descriptionStyle: events[0].descriptionStyle,
-      );
-    else
-      return SizedBox.shrink();
+    // if (events.isNotEmpty)
+    return RoundedEventTile(
+      borderRadius: BorderRadius.circular(10.0),
+      title: event.title,
+      totalEvents: 1,
+      description: event.description,
+      padding: EdgeInsets.all(10.0),
+      backgroundColor: event.color,
+      margin: EdgeInsets.all(2.0),
+      titleStyle: event.titleStyle,
+      descriptionStyle: event.descriptionStyle,
+    );
+    // else
+    //   return SizedBox.shrink();
   }
 
   /// Default view header builder. This builder will be used if

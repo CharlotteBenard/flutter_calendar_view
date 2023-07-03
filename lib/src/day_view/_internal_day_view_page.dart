@@ -200,10 +200,14 @@ class InternalDayViewPage<T extends Object?> extends StatelessWidget {
                         events: controller.getEventsOnDay(date),
                         heightPerMinute: heightPerMinute,
                         eventTileBuilder: eventTileBuilder,
+                        minuteSlotSize: minuteSlotSize,
                         scrollNotifier: scrollNotifier,
                         width: width -
                             timeLineWidth -
                             hourIndicatorSettings.offset -
+                            verticalLineOffset,
+                        hoursColumnWidth: timeLineWidth +
+                            hourIndicatorSettings.offset +
                             verticalLineOffset,
                       ),
                     ),

@@ -317,8 +317,10 @@ class InternalWeekViewPage<T extends Object?> extends StatelessWidget {
                                             eventArranger: eventArranger,
                                             eventTileBuilder: eventTileBuilder,
                                             scrollNotifier: scrollConfiguration,
+                                            minuteSlotSize: minuteSlotSize,
                                             events: controller.getEventsOnDay(
                                                 filteredDates[index]),
+                                            hoursColumnWidth: 0,
                                             heightPerMinute: heightPerMinute,
                                           ),
                                         ],
